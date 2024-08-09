@@ -8,8 +8,7 @@ const App = () => {
 
   return (
     <>
-      {chosenName}
-      <Post />
+      <p><Post author={chosenName} body={"lorem ipsum"} /></p>
     </>
   )
 }
