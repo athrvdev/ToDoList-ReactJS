@@ -2,17 +2,44 @@ import React from 'react'
 import styles from '../styles/NewPost.module.css'
 import { useState } from 'react';
 
-const NewPost = ({onBodyChange, onAuthorChange}) => {
+const NewPost = ({ onCancel, onAddPost}) => {
+  const [enteredBody, setEnteredBody] = useState("");
+  function bodyChangeHandler(event){
+    setEnteredBody(event.target.value);
+  }
+
+  const [enteredAuthor, setEnteredAuthor] = useState("");
+  function authorChangeHandler(event){
+    setEnteredAuthor(event.target.value);
+  }  
+
+  function submitHandler(event){
+    event.preventDefault();
+    const postData={
+      body : enteredBody,
+      author : enteredAuthor
+    }
+    onAddPost(postData);
+    onCancel();
+    
+  }
+  
 
   return (
     <>
-      <form className={styles.form}>
-          <label htmlFor='body' >Text</label>
-          <textarea id='body' required rows={3} onChange={onBodyChange} />
-          
-          <label htmlFor='name' >Text</label>
-          <input type='text' id='name' required onChange={onAuthorChange} />
-        
+      <form className={styles.form} onSubmit={submitHandler}>
+        <p>
+          <label htmlFor='body'>Text</label>
+          <textarea id='body' required rows={3} onChange={bodyChangeHandler} />
+        </p> 
+        <p> 
+          <label htmlFor='name' >Author</label>
+          <input type='text' id='name' required onChange={authorChangeHandler} />
+        </p>
+        <p className={styles.actions} >
+          <button type='button' onClick={onCancel}>Cancel</button>
+          <button type='submit'>Submit</button>
+        </p>
       </form>
     </>
   )

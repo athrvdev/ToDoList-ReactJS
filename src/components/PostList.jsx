@@ -7,29 +7,26 @@ import { useState } from 'react'
 
 const PostList = ({onHideForm, modalVisiblity}) => {
 
-  const [enteredBody, setEnteredBody] = useState("");
-  function bodyChangeHandler(event){
-    setEnteredBody(event.target.value);
-  }
+  const [posts, setPosts] = useState([]);
 
-  const [enteredAuthor, setEnteredAuthor] = useState("");
-  function authorChangeHandler(event){
-    setEnteredAuthor(event.target.value);
-  }  
+  function addPostHandler(postData){
+    setPosts((existingPosts) => [postData, ...existingPosts]);
+  }
 
   return (
     <>
     {modalVisiblity &&
-    <Modal onClose={onHideForm} >
-      <NewPost onBodyChange={bodyChangeHandler} onAuthorChange={authorChangeHandler} />
-    </Modal> 
-    
-    }
+      <Modal onClose={onHideForm} >
+        <NewPost onCancel={onHideForm} onAddPost={addPostHandler} />
+      </Modal> }
+
     <ul className={styles.posts}>
-        <Post author={enteredAuthor} text={enteredBody} />
-        <Post author="AK" text="JFS" />
-        
-    </ul>
+            {
+              posts.map((post, index)=> (
+                <Post author={post.author} text={post.body} />
+              ))
+            }
+   </ul>
     </>
   )
 }
