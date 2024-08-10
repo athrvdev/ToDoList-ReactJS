@@ -10,6 +10,13 @@ const PostList = ({onHideForm, modalVisiblity}) => {
   const [posts, setPosts] = useState([]);
 
   function addPostHandler(postData){
+    fetch('http://localhost:8080/posts' , {
+      method: 'POST',
+      body: JSON.stringify(postData),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    });
     setPosts((existingPosts) => [postData, ...existingPosts]);
   }
 
@@ -22,11 +29,20 @@ const PostList = ({onHideForm, modalVisiblity}) => {
 
     <ul className={styles.posts}>
             {
+              posts.length > 0 &&
               posts.map((post, index)=> (
-                <Post author={post.author} text={post.body} />
-              ))
+                <Post key={index} author={post.author} text={post.body} />
+              ))  
+              
             }
    </ul>
+   {
+    !posts.length && 
+    <div style={{textAlign: 'center'}}>
+    <h2>No posts yet!!</h2>
+    <p>Try adding some.</p>  
+  </div>
+   }
     </>
   )
 }
