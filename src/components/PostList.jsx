@@ -3,11 +3,20 @@ import Post from './Post'
 import styles from '../styles/PostList.module.css'
 import NewPost from './NewPost'
 import Modal from './Modal'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const PostList = ({onHideForm, modalVisiblity}) => {
 
   const [posts, setPosts] = useState([]);
+
+  useEffect(()=>{
+    async function fetchPosts(){
+      const response = await fetch('http://localhost:8080/posts')
+      const resData = await response.json();
+      setPosts(resData.posts);
+    }
+    fetchPosts();
+  }, [posts]);
 
   function addPostHandler(postData){
     fetch('http://localhost:8080/posts' , {
