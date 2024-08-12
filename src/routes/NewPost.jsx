@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from '../styles/NewPost.module.css'
 import { useState } from 'react';
+import Modal from '../components/Modal';
+import { Link } from 'react-router-dom';
 
 const NewPost = ({ onCancel, onAddPost}) => {
   const [enteredBody, setEnteredBody] = useState("");
@@ -21,12 +23,11 @@ const NewPost = ({ onCancel, onAddPost}) => {
     }
     onAddPost(postData);
     onCancel();
-    
-  }
-  
+    }
 
   return (
     <>
+    <Modal>
       <form className={styles.form} onSubmit={submitHandler}>
         <p>
           <label htmlFor='body'>Text</label>
@@ -37,10 +38,11 @@ const NewPost = ({ onCancel, onAddPost}) => {
           <input type='text' id='name' required onChange={authorChangeHandler} />
         </p>
         <p className={styles.actions} >
-          <button type='button' onClick={onCancel}>Cancel</button>
+          <Link to='..' type='button' onClick={onCancel}>Cancel</Link>
           <button type='submit'>Submit</button>
         </p>
       </form>
+    </Modal>
     </>
   )
 }
